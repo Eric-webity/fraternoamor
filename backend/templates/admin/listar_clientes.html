@@ -1,0 +1,40 @@
+{% extends "admin_base.html" %}
+{% block title %}Gerenciar Clientes{% endblock %}
+{% block page_title %}Clientes Cadastrados{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}{% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}{% endif %}
+    {% endwith %}
+
+    <div class="page-header-with-button">
+        <p>Gerencie os contatos dos seus clientes.</p>
+        <a href="{{ url_for('adicionar_cliente') }}" class="botao-enviar">Adicionar Novo Cliente</a>
+    </div>
+
+    <table class="product-table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Contato</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.contato or 'Não informado' }}</td>
+                <td class="actions-cell">
+                    <a href="{{ url_for('editar_cliente', cliente_id=cliente.id) }}" class="action-button edit">Editar</a>
+                    <form action="{{ url_for('excluir_cliente', cliente_id=cliente.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="action-button delete" onclick="return confirm('Tem certeza?');">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

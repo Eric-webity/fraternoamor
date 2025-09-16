@@ -1,0 +1,30 @@
+{% extends "admin_base.html" %}
+{% block title %}Gerenciar Usuário{% endblock %}
+{% block page_title %}Gerenciar Permissões{% endblock %}
+
+{% block content %}
+<div class="data-form">
+    <h3>Usuário: {{ usuario.username }}</h3>
+    <p>Selecione abaixo as categorias de permissão para este usuário.</p>
+    <hr style="margin: 20px 0;">
+
+    <form method="POST">
+        <div class="form-group">
+            <label>Categorias de Usuário</label>
+            <div class="checkbox-group">
+                {% for categoria in todas_categorias %}
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="categorias" value="{{ categoria.id }}" 
+                               id="cat-{{ categoria.id }}" 
+                               {% if categoria in usuario.categorias %}checked{% endif %}>
+                        <label for="cat-{{ categoria.id }}">
+                            {{ categoria.nome }} <small>(Nível: {{ categoria.nivel }})</small>
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="submit" class="botao-enviar">Salvar Permissões</button>
+    </form>
+</div>
+{% endblock %}

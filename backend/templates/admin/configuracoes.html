@@ -1,0 +1,49 @@
+{% extends "admin_base.html" %}
+{% block title %}Configurações do Site{% endblock %}
+{% block content %}
+<div class="container page-content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}{% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}{% endif %}
+    {% endwith %}
+
+    <div class="data-form">
+        <h1 class="page-title">Configurações Gerais</h1>
+
+        <div class="form-section">
+            <h3>Status da Lanchonete</h3>
+            <p>Use os botões para abrir ou fechar a lanchonete para novos pedidos.</p>
+            <div class="status-buttons">
+                <form action="{{ url_for('mudar_status_lanchonete') }}" method="POST">
+                    <input type="hidden" name="novo_status" value="Aberto">
+                    <button type="submit" class="botao-enviar status-aberto 
+                        {% if status_lanchonete and status_lanchonete.valor == 'Aberto' %}active{% endif %}">
+                        Aberto
+                    </button>
+                </form>
+                <form action="{{ url_for('mudar_status_lanchonete') }}" method="POST">
+                    <input type="hidden" name="novo_status" value="Fechado">
+                    <button type="submit" class="botao-enviar status-fechado 
+                        {% if not status_lanchonete or status_lanchonete.valor == 'Fechado' %}active{% endif %}">
+                        Fechado
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="form-section">
+            <form method="POST" action="{{ url_for('configuracoes') }}">
+                <div class="form-group">
+                    <label for="aviso">Aviso Personalizado da Lanchonete</label>
+                    <p class="form-hint">Este texto aparecerá abaixo do status. Deixe em branco para não exibir nada.</p>
+                    <textarea id="aviso" name="aviso" rows="4">{{ aviso.valor if aviso else '' }}</textarea>
+                </div>
+                <button type="submit" class="botao-enviar">Salvar Mensagem</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

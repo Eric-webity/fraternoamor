@@ -1,0 +1,32 @@
+{% extends "admin_base.html" %}
+{% block title %}Editar Curso{% endblock %}
+{% block page_title %}Editar Curso{% endblock %}
+{% block content %}
+<div class="data-form">
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="titulo">Título</label>
+            <input type="text" id="titulo" name="titulo" value="{{ curso.titulo }}" required>
+        </div>
+        <div class="form-group">
+            <label for="link_video">Link do Vídeo</label>
+            <input type="text" id="link_video" name="link_video" value="{{ curso.link_video }}" required>
+        </div>
+        <div class="form-group">
+            <label for="categoria_id">Categoria</label>
+            <select name="categoria_id" id="categoria_id" required>
+                {% for categoria in categorias %}
+                <option value="{{ categoria.id }}" {% if curso.categoria_id == categoria.id %}selected{% endif %}>
+                    {{ categoria.nome }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="descricao">Descrição do Curso</label>
+            <textarea name="descricao" id="descricao" rows="5">{{ curso.descricao or '' }}</textarea>
+        </div>
+        <button type="submit" class="botao-enviar">Salvar Alterações</button>
+    </form>
+</div>
+{% endblock %}

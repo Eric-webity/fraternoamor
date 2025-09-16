@@ -1,0 +1,81 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Gerenciar Avisos{% endblock %}
+
+{% block content %}
+<div class="container-fluid admin-page-content">
+    <div class="page-header">
+        <h1>Gerenciar Avisos</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h6>Criar Novo Aviso</h6>
+                </div>
+                <div class="card-body styled-form">
+                    <form action="{{ url_for('gerenciar_avisos') }}" method="POST">
+                        <div class="form-group">
+                            <label for="mensagem">Mensagem do Aviso</label>
+                            <textarea name="mensagem" id="mensagem" class="form-control" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoria_permissao_id">Enviar Para (Público-Alvo)</label>
+                            <select name="categoria_permissao_id" id="categoria_permissao_id" class="form-control">
+                                <option value="">Todos os Membros</option>
+                                {% for cat in categorias_usuario %}
+                                <option value="{{ cat.id }}">{{ cat.nome }}</option>
+                                {% endfor %}
+                            </select>
+                            <small class="form-text text-muted">Selecione um grupo ou deixe para enviar a todos.</small>
+                        </div>
+                        <button type="submit" class="btn btn-success">Publicar Aviso</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h6>Avisos Ativos</h6>
+                </div>
+                <div class="card-body">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Mensagem</th>
+                                <th>Público-Alvo</th>
+                                <th style="width: 150px;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for aviso in avisos %}
+                            <tr>
+                                <td>{{ aviso.mensagem }}</td>
+                                <td>
+                                    {% if aviso.categoria_permissao %}
+                                        <span class="tag tag--info">{{ aviso.categoria_permissao.nome }}</span>
+                                    {% else %}
+                                        <span class="tag tag--secondary">Todos os Membros</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <form class="action-buttons" action="{{ url_for('excluir_aviso', aviso_id=aviso.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este aviso?');">
+                                        <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" style="text-align: center;">Nenhum aviso publicado.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "public_base.html" %}
+{% block title %}{{ titulo }}{% endblock %}
+{% block content %}
+<section class="page-banner">
+    <div class="container">
+        <h1 class="page-title">{{ titulo }}</h1>
+    </div>
+</section>
+<div class="container page-content">
+    <div class="text-content">
+        {% if conteudo and conteudo.valor %}
+            {{ conteudo.valor | safe }}
+        {% else %}
+            <p>Nenhum conteúdo disponível no momento.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

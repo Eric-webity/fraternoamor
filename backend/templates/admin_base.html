@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Painel Admin{% endblock %} - Fraterno Amor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+</head>
+<body class="admin-body">
+
+    <div class="admin-grid-container">
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <a href="{{ url_for('home') }}" class="logo-link" title="Voltar para o site público">
+                    <img src="{{ url_for('static', filename='imagens/logo-branco.png') }}" alt="Logo" class="logo">
+                    <span>Fraterno Amor</span>
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    
+                    <li class="nav-section-title">Lanchonete</li>
+                    <li><a href="{{ url_for('configuracoes') }}"><i class="fas fa-cog"></i> Status</a></li>
+                    <li><a href="{{ url_for('listar_pedidos') }}"><i class="fas fa-receipt"></i> Pedidos</a></li>
+                    <li><a href="{{ url_for('listar_produtos') }}"><i class="fas fa-cookie-bite"></i> Produtos</a></li>
+                    <li><a href="{{ url_for('listar_clientes') }}"><i class="fas fa-users"></i> Clientes</a></li>
+
+                    <li class="nav-section-title">Membros & Formações</li>
+                    <li><a href="{{ url_for('gerenciar_avisos') }}"><i class="fas fa-bullhorn"></i> Gerenciar Avisos</a></li>
+                    <li><a href="{{ url_for('listar_cursos') }}"><i class="fas fa-graduation-cap"></i> Gerenciar Cursos</a></li>
+                    <li><a href="{{ url_for('listar_categorias') }}"><i class="fas fa-tags"></i> Categorias de Cursos</a></li>
+
+                    <li><a href="{{ url_for('listar_materiais') }}"><i class="fas fa-book-open"></i> Gerenciar Biblioteca</a></li>
+                    <li><a href="{{ url_for('listar_categorias_material') }}"><i class="fas fa-tags"></i> Categorias da Biblioteca</a></li>
+
+                    <li><a href="{{ url_for('listar_usuarios_admin') }}"><i class="fas fa-users-cog"></i> Gerenciar Usuários</a></li>
+                    <li><a href="{{ url_for('listar_categorias_usuario') }}"><i class="fas fa-key"></i> Gerenciar Permissões</a></li>
+
+                    
+                    <li class="nav-section-title">Site & Comunicação</li>
+                    <li><a href="{{ url_for('enviar_comunicacao') }}"><i class="fab fa-whatsapp"></i> Comunicações</a></li>
+                    
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="admin-main-content">
+            <header class="admin-header">
+                <div class="header-left">
+                    <h2>{% block page_title %}{% endblock %}</h2>
+                </div>
+                <div class="header-right">
+                    <span>Olá, {{ current_user.username }}</span>
+                    <a href="{{ url_for('alterar_senha') }}">Alterar Senha</a>
+                    <a href="{{ url_for('logout') }}" class="logout-button">Sair</a>
+                </div>
+            </header>
+            <main class="admin-page-content">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    </body>
+</html>

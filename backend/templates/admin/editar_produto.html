@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Produto - Fraterno Amor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+    <header>...</header>
+    <main>
+        <div class="container page-content">
+            <h1 class="page-title">Editar Produto</h1>
+            
+            <form method="POST" enctype="multipart/form-data" class="data-form">
+                <div class="form-group">
+                    <label for="nome">Nome do Produto</label>
+                    <input type="text" id="nome" name="nome" value="{{ produto.nome }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="categoria">Categoria</label>
+                    <input type="text" id="categoria" name="categoria" value="{{ produto.categoria }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="preco">Preço</label>
+                    <input type="number" step="0.01" id="preco" name="preco" value="{{ produto.preco }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="estoque">Quantidade em Estoque</label>
+                    <input type="number" id="estoque" name="estoque" value="{{ produto.estoque }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="imagem_file">Anexar Imagem (Opcional)</label>
+                    <input type="file" id="imagem_file" name="imagem_file" class="form-control-file">
+                </div>
+                <button type="submit" class="botao-enviar">Salvar Alterações</button>
+            </form>
+        </div>
+    </main>
+    <footer>...</footer>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+</body>
+</html>

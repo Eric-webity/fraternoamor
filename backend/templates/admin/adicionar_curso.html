@@ -1,0 +1,46 @@
+{% extends "admin_base.html" %}
+{% block title %}Novo Curso{% endblock %}
+{% block content %}
+<div class="container page-content">
+    <div class="data-form">
+        <h1 class="page-title">Adicionar Novo Curso</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="titulo">Título do Curso/Formação</label>
+                <input type="text" id="titulo" name="titulo" required>
+            </div>
+            <div class="form-group">
+                <label for="link_video">Link do Vídeo (YouTube, Vimeo, etc.)</label>
+                <input type="text" id="link_video" name="link_video" required>
+            </div>
+            <div class="form-group">
+                <label for="categoria_id">Categoria</label>
+                <select name="categoria_id" id="categoria_id" required>
+                    <option value="">Selecione uma categoria</option>
+                    {% for categoria in categorias %}
+                    <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="imagem_thumbnail">Imagem de Capa (Thumbnail)</label>
+                <input type="file" id="imagem_thumbnail" name="imagem_thumbnail" class="form-control-file">
+            </div>
+            <div class="form-group">
+                <label for="arquivo_anexo">Anexar Material (PDF, DOC - Opcional)</label>
+                <input type="file" id="arquivo_anexo" name="arquivo_anexo" class="form-control-file">
+            </div>
+            <div class="form-group">
+                <label for="categoria_permissao_id">Quem Pode Ver? (Permissão)</label>
+                <select name="categoria_permissao_id" id="categoria_permissao_id">
+                    <option value="">Todos os Membros</option>
+                    {% for cat_user in categorias_usuario %}
+                    <option value="{{ cat_user.id }}">{{ cat_user.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="botao-enviar">Salvar Curso</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

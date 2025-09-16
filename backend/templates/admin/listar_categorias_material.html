@@ -1,0 +1,65 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Categorias da Biblioteca{% endblock %}
+
+{% block content %}
+<div class="container-fluid admin-page-content">
+    <div class="page-header">
+        <h1>Categorias da Biblioteca</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h6>Categorias Existentes</h6>
+                </div>
+                <div class="card-body">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">ID</th>
+                                <th>Nome</th>
+                                <th style="width: 150px;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cat in categorias %}
+                            <tr>
+                                <td>{{ cat.id }}</td>
+                                <td>{{ cat.nome }}</td>
+                                <td>
+                                    <form class="action-buttons" action="{{ url_for('excluir_categoria_material', categoria_id=cat.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta categoria?');">
+                                        <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" style="text-align: center;">Nenhuma categoria cadastrada.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h6>Adicionar Nova Categoria</h6>
+                </div>
+                <div class="card-body styled-form">
+                    <form action="{{ url_for('adicionar_categoria_material') }}" method="POST">
+                        <div class="form-group">
+                            <label for="nome">Nome da Categoria</label>
+                            <input type="text" class="form-control" name="nome" id="nome" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Adicionar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

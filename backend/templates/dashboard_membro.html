@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Formações - Fraterno Amor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <header class="dashboard-header">
+        <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='imagens/logo-branco.png') }}" alt="Logo" class="logo"></a>
+        <nav>
+            {% if current_user.is_admin %}
+                <a href="{{ url_for('admin_dashboard') }}" class="header-button" style="background-color: var(--cor-destaque); color: var(--cor-texto);">Painel Admin</a>
+            {% endif %}
+            <a href="{{ url_for('alterar_senha') }}">Alterar Senha</a>
+            <a href="{{ url_for('logout') }}">Sair</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="dashboard-hero">
+            <div class="container">
+                <h1>Seja Bem-vindo, {{ current_user.username }}!</h1>
+            </div>
+        </section>
+
+        <section class="container">
+            
+            <div class="busca-container">
+                <input type="text" id="caixa-busca" placeholder="🔎 Buscar por título...">
+            </div>
+
+            <div class="avisos-section">
+                <h3>Avisos Importantes</h3>
+                <p>{{ aviso }}</p>
+            </div>
+
+            {% if cursos_por_categoria %}
+                <h1 class="main-section-title">Cursos e Formações</h1>
+                {% for nome_categoria, cursos_na_categoria in cursos_por_categoria.items() %}
+                <div class="trilha-section">
+                    <h2>{{ nome_categoria }}</h2>
+                    <div class="cursos-carousel">
+                        {% for curso in cursos_na_categoria %}
+                        <a href="{{ url_for('ver_curso', curso_id=curso.id) }}" class="curso-card">
+                            <img src="{{ url_for('static', filename=('uploads/' + curso.imagem_thumbnail if curso.imagem_thumbnail else 'imagens/placeholder.png')) }}" alt="{{ curso.titulo }}">
+                            <h4>{{ curso.titulo }}</h4>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% if materiais_por_categoria %}
+                <h1 class="main-section-title">Biblioteca Digital</h1>
+                {% for nome_categoria, materiais_na_categoria in materiais_por_categoria.items() %}
+                <div class="trilha-section">
+                    <h2>{{ nome_categoria }}</h2>
+                    <div class="cursos-carousel">
+                        {% for material in materiais_na_categoria %}
+                        <a href="{{ url_for('static', filename='uploads/' + material.arquivo_pdf) }}" target="_blank" class="curso-card">
+                            <img src="{{ url_for('static', filename=('uploads/' + material.imagem_capa if material.imagem_capa else 'imagens/placeholder.png')) }}" alt="{{ material.titulo }}">
+                            <h4>{{ material.titulo }}</h4>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if not cursos_por_categoria and not materiais_por_categoria %}
+                <p style="text-align: center; margin-top: 50px;">Nenhum conteúdo disponível para você no momento.</p>
+            {% endif %}
+
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>

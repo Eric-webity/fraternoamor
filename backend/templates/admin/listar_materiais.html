@@ -1,0 +1,57 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Gerenciar Biblioteca Digital{% endblock %}
+
+{% block content %}
+<div class="container-fluid admin-page-content">
+    <div class="page-header">
+        <h1>Gerenciar Biblioteca Digital</h1>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-header">
+            <h6>Materiais Cadastrados</h6>
+            <a href="{{ url_for('adicionar_material') }}" class="btn btn-sm btn-success">
+                <i class="fas fa-plus"></i> Adicionar Novo Material
+            </a>
+        </div>
+        <div class="card-body">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">Capa</th>
+                        <th>Título</th>
+                        <th>Categoria</th>
+                        <th style="width: 200px;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for material in materiais %}
+                    <tr>
+                        <td>
+                            {% if material.imagem_capa %}
+                            <img src="{{ url_for('static', filename='uploads/' + material.imagem_capa) }}" alt="Capa de {{ material.titulo }}" width="50" style="border-radius: 4px;">
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        <td>{{ material.titulo }}</td>
+                        <td><span class="tag tag--secondary">{{ material.categoria.nome }}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="#" class="btn btn-sm btn-warning">Editar</a>
+                                <a href="#" class="btn btn-sm btn-danger">Excluir</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center;">Nenhum material cadastrado ainda.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

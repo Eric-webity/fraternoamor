@@ -1,0 +1,89 @@
+{% extends "public_base.html" %}
+{% block title %}Lanchonete{% endblock %}
+{% block content %}
+<div class="container page-content">
+    
+    <div class="lanchonete-header">
+        <h1 class="page-title">Cardápio da Lanchonete</h1>
+        <p class="page-subtitle">Faça seu pedido e nos ajude a evangelizar!</p>
+    </div>
+
+    <div class="status-notice">
+            {% if status_lanchonete and status_lanchonete.valor == 'Aberto' %}
+                <h2 class="status-aberto">LANCHONETE ABERTA</h2>
+            {% else %}
+                <h2 class="status-fechado">LANCHONETE FECHADA</h2>
+                <p>Não estamos aceitando pedidos no momento.</p>
+            {% endif %}
+        </div>
+
+        {% if aviso_lanchonete and aviso_lanchonete.valor %}
+        <div class="availability-notice">
+            <p>{{ aviso_lanchonete.valor }}</p>
+        </div>
+        {% endif %}
+        
+    <div class="lanchonete-container">
+        
+        <div class="product-grid">
+            {% for produto in produtos %}
+            <div class="product-card">
+                <img src="{{ url_for('static', filename='uploads/' + produto.imagem_url if produto.imagem_url else 'imagens/placeholder.png') }}" alt="{{ produto.nome }}" class="product-card-img">
+                <div class="product-card-body">
+                    <h3>{{ produto.nome }}</h3>
+                    <p class="product-card-category">{{ produto.categoria }}</p>
+                    <div class="product-card-stock">
+                        {% if produto.estoque > 0 %}
+                            <span class="stock-available">Disponível: {{ produto.estoque }}</span>
+                        {% else %}
+                            <span class="stock-unavailable">Esgotado</span>
+                        {% endif %}
+                    </div>
+                    <div class="product-card-footer">
+                        <span class="product-card-price">R$ {{ "%.2f"|format(produto.preco) }}</span>
+                        <button class="action-button edit btn-pedir" 
+                                data-produto-id="{{ produto.id }}" 
+                                data-produto-nome="{{ produto.nome }}" 
+                                data-produto-preco="{{ produto.preco }}">
+                                Adicionar {% if not status_lanchonete or status_lanchonete.valor == 'Fechado' %}disabled{% endif %}>
+                        </button>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div id="carrinho-sidebar">
+            <h2>Seu Pedido</h2>
+            <ul id="carrinho-itens">
+                <li class="carrinho-vazio">Seu carrinho está vazio.</li>
+            </ul>
+            <div id="carrinho-footer">
+                <div class="carrinho-total">
+                    <strong>Total:</strong>
+                    <span id="carrinho-total-preco">R$ 0.00</span>
+                </div>
+                <button class="botao-enviar" id="btn-finalizar-pedido">Finalizar Pedido</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="nome-cliente-modal" class="modal">
+    <div class="modal-box-content">
+        <span class="close-button-nome">&times;</span>
+        <h2>Identificação</h2>
+        <p>Por favor, digite seu nome para continuar com o pedido.</p>
+        <form id="form-nome-cliente">
+            <div class="form-group">
+                <label for="input-nome-cliente">Seu Nome:</label>
+                <input type="text" id="input-nome-cliente" required>
+            </div>
+            <button type="submit" class="botao-enviar">Confirmar Pedido</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

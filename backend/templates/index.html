@@ -1,0 +1,42 @@
+{% extends "public_base.html" %}
+{% block title %}Bem-vindo{% endblock %}
+{% block content %}
+
+    <section id="hero-main">
+        <a href="{{ url_for('historia') }}" class="hero-background-link" aria-label="Conheça nossa história"></a>
+        <div class="hero-content">
+            <h1 id="hero-title"></h1>
+            <p>“Eu os lacei com laços de amizade, e os amarrei com cordas de amor” (Os 11,4).</p>
+            <a href="{{ url_for('historia') }}" class="botao-destaque">Conheça nossa história</a>
+        </div>
+    </section>
+
+    <section id="apresentacao" class="container page-content fade-in-section">
+        <p class="intro-text">Somos uma Comunidade Católica que nasceu para testemunhar a ternura do Coração de Jesus, acolhendo os feridos no amor e anunciando o Evangelho com alegria. Aqui você encontrará nossa história, nossa missão e os caminhos para caminhar conosco. Participe de nossas atividades, conheça nossos projetos e venha experimentar o amor fraterno que transforma vidas!</p>
+    </section>
+
+    <section id="eventos-index" class="container page-content fade-in-section">
+        <h2 class="section-title">Nossos Principais Eventos</h2>
+        <div class="baluartes-grid">
+            <a href="#" class="baluarte-card" id="evento-lancai">
+                <div class="baluarte-content">
+                    <h3>LANÇAI AS REDES</h3>
+                    <p>Uma experiência profunda de discernimento vocacional e amadurecimento no carisma.</p>
+                </div>
+            </a>
+            <a href="#" class="baluarte-card" id="evento-tottus">
+                <div class="baluarte-content">
+                    <h3>TOTTUS TUUS</h3>
+                    <p>Nosso tradicional retiro de Carnaval, um tempo de alegria, oração e fraternidade.</p>
+                </div>
+            </a>
+            <a href="#" class="baluarte-card" id="evento-cenaculo">
+                <div class="baluarte-content">
+                    <h3>CENÁCULO MARIANO</h3>
+                    <p>Um momento de intensa oração e devoção, consagrando nossas vidas a Virgem Maria.</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+{% endblock %}

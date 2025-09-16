@@ -1,0 +1,8 @@
+PassengerEnabled on
+PassengerAppRoot /home/your_username/backend
+PassengerPython /home/your_username/virtualenv/backend/venv/bin/python
+
+# Redirecionar tudo para o app Flask, exceto arquivos estáticos
+RewriteEngine on
+RewriteRule ^static/ - [L]
+RewriteRule ^(.*)$ / [PT]

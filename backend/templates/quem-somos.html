@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quem Somos - Comunidade Fraterno Amor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+
+            <a href="{{ url_for('home') }}">
+                <img src="{{ url_for('static', filename='imagens/logo-branco.png') }}" alt="Logo Comunidade Fraterno Amor" class="logo">
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Página Principal</a></li>
+                    <li><a href="{{ url_for('historia') }}">Nossa História</a></li>
+                    <li><a href="{{ url_for('identidade') }}">Nossa Identidade</a></li>
+                    <li><a href="{{ url_for('quem_somos') }}">Quem Somos</a></li>
+                    <li><a href="{{ url_for('contato') }}">Contato</a></li>
+                    <li><a href="{{ url_for('lanchonete') }}"><b>Lanchonete</b></a></li>
+                </ul>
+            </nav>
+
+            <a href="{{ url_for('login') }}" class="header-button">Área dos Membros</a>
+            
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+        <div class="container page-content">
+            <h1 class="page-title">Quem Somos</h1>
+            <p class="page-subtitle">Rostos e corações que formam a nossa família.</p>
+
+            <section class="team-section">
+                <h2>Nossa Equipe</h2>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <img src="https://via.placeholder.com/250" alt="Foto do Membro 1">
+                        <h3>Nome do Membro 1</h3>
+                        <span>Fundador / Coordenador</span>
+                        <p>Uma breve descrição sobre o membro, seu papel na comunidade e sua jornada de fé.</p>
+                    </div>
+
+                    <div class="team-card">
+                        <img src="https://via.placeholder.com/250" alt="Foto do Membro 2">
+                        <h3>Nome do Membro 2</h3>
+                        <span>Formadora Geral</span>
+                        <p>Uma breve descrição sobre o membro, seu papel na comunidade e sua jornada de fé.</p>
+                    </div>
+
+                    <div class="team-card">
+                        <img src="https://via.placeholder.com/250" alt="Foto do Membro 3">
+                        <h3>Nome do Membro 3</h3>
+                        <span>Ecônomo</span>
+                        <p>Uma breve descrição sobre o membro, seu papel na comunidade e sua jornada de fé.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="gallery-section">
+                <h2>Nossa Vida Fraterna</h2>
+                <div class="modal-trigger">
+                    <img src="/imagens/Captura de tela 2025-09-12 115404.png" alt="Momento da comunidade 1">
+                    <img src="/imagens/Captura de tela 2025-09-12 115404.png" alt="Momento da comunidade 2">
+                    <img src="/imagens/Captura de tela 2025-09-12 115404.png" alt="Momento da comunidade 3">
+                    <img src="/imagens/Captura de tela 2025-09-12 115404.png" alt="Momento da comunidade 4">
+                    <img src="/imagens/Captura de tela 2025-09-12 115404.png" alt="Momento da comunidade 5">
+                    <img src="/imagens/Captura de tela 2025-09-12 115404.png" alt="Momento da comunidade 6">
+                    
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <div id="gallery-modal" class="modal">
+        <span class="close-button">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Comunidade Católica Fraterno Amor. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/scripts.js" defer></script>
+</body>
+</html>

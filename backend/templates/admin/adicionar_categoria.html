@@ -1,0 +1,16 @@
+{% extends "admin_base.html" %}
+{% block title %}Nova Categoria{% endblock %}
+{% block content %}
+<div class="container page-content">
+    <div class="data-form">
+        <h1 class="page-title">Adicionar Nova Categoria</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="nome">Nome da Categoria</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            <button type="submit" class="botao-enviar">Salvar Categoria</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

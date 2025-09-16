@@ -1,0 +1,61 @@
+{% extends "admin_base.html" %}
+{% block title %}Categorias de Permissão{% endblock %}
+{% block page_title %}Categorias de Permissão{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}{% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}{% endif %}
+    {% endwith %}
+
+    <div class="page-header-with-button">
+        <p>Gerencie as categorias de permissão para controlar o acesso aos cursos.</p>
+        <a href="{{ url_for('adicionar_categoria_usuario') }}" class="botao-enviar">Nova Categoria</a>
+    </div>
+
+    <table class="product-table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Nível</th>
+                <th>Usuários</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categoria in categorias %}
+            <tr>
+                <td><strong>{{ categoria.nome }}</strong></td>
+                <td>{{ categoria.nivel }}</td>
+                <td>{{ categoria.usuarios|length }} usuário(s)</td>
+                <td class="actions-cell">
+                    <a href="{{ url_for('editar_categoria_usuario', id=categoria.id) }}" class="action-button edit">Editar</a>
+                    <form action="{{ url_for('excluir_categoria_usuario', id=categoria.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="action-button delete" onclick="return confirm('Tem certeza? Esta ação não pode ser desfeita.');">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" style="text-align: center; padding: 20px;">
+                    Nenhuma categoria de permissão encontrada. 
+                    <a href="{{ url_for('adicionar_categoria_usuario') }}">Crie a primeira categoria</a>.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="info-box">
+        <h4>Categorias Recomendadas:</h4>
+        <ul>
+            <li><strong>Vocacionados</strong> - Nível 1 (vocacionados)</li>
+            <li><strong>Iniciato</strong> - Nível 2 (formação inicial)</li>
+            <li><strong>Discípulos 1</strong> - Nível 3 (primeira etapa discipular)</li>
+            <li><strong>Discípulos 2</strong> - Nível 4 (segunda etapa discipular)</li>
+            <li><strong>Consagrados</strong> - Nível 5 (consagrados)</li>
+        </ul>
+        <p>Usuários com nível maior podem acessar conteúdos de níveis menores.</p>
+    </div>
+{% endblock %}

@@ -1,0 +1,167 @@
+{% extends "public_base.html" %}
+{% block title %}Contato{% endblock %}
+{% block content %}
+
+<section class="page-banner">
+    <div class="container">
+        <h1 class="page-title">Contato</h1>
+        <p class="page-subtitle">Quer falar conosco? Estaremos felizes em acolher sua mensagem!</p>
+    </div>
+</section>
+
+<div class="container page-content">
+    <div class="contact-container">
+        <div class="contact-form">
+            <h3>Envie-nos uma Mensagem</h3>
+            <form id="main-contact-form" method="POST">
+                <div class="form-group">
+                    <label for="nome">Seu Nome</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Seu E-mail</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="assunto">Assunto</label>
+                    <input type="text" id="assunto" name="assunto">
+                </div>
+                <div class="form-group">
+                    <label for="mensagem">Sua Mensagem</label>
+                    <textarea id="mensagem" name="mensagem" rows="6" required></textarea>
+                </div>
+                <button type="submit" class="botao-enviar">Enviar</button>
+            </form>
+        </div>
+
+        <div class="contact-info">
+            <h3>Nossas Informações</h3>
+            <ul class="contact-list">
+                <li>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <strong>Endereço:</strong>
+                        <p>Rua João Targino Delgado, 53 – Jardim Camboinha – Cabedelo – PB</p>
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <strong>Telefone:</strong>
+                        <p>(83) 99993-0067</p>
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <strong>E-mail:</strong>
+                        <p>contato@comunidadefraternoamor.com</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Estilos para a página de contato */
+.contact-container {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.contact-form {
+    flex: 1;
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.contact-form h3 {
+    font-family: var(--fonte-titulos);
+    color: var(--cor-primaria);
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.contact-info {
+    flex: 1;
+    background: var(--cor-primaria);
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.contact-info h3 {
+    font-family: var(--fonte-titulos);
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    text-align: center;
+    color: white;
+}
+
+.contact-list {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-list li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+    gap: 15px;
+}
+
+.contact-list li i {
+    font-size: 1.5rem;
+    color: var(--cor-destaque);
+    margin-top: 5px;
+    min-width: 25px;
+    text-align: center;
+}
+
+.contact-list strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.contact-list p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Responsividade */
+@media screen and (max-width: 992px) {
+    .contact-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .contact-form, .contact-info {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .contact-form, .contact-info {
+        padding: 20px;
+    }
+    
+    .contact-list li {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .contact-list li i {
+        margin: 0 auto;
+    }
+}
+</style>
+
+{% endblock %}

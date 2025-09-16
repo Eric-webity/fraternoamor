@@ -1,0 +1,24 @@
+{% extends "admin_base.html" %}
+{% block title %}Editar Página{% endblock %}
+{% block page_title %}Editar Conteúdo da Página: {{ page_key.replace('_', ' ').title() }}{% endblock %}
+{% block content %}
+<div class="data-form" style="max-width: 900px;">
+    <form method="POST">
+        <div class="form-group">
+            <textarea id="editor-conteudo" name="conteudo" rows="20">
+                {{ pagina.valor if pagina else '' }}
+            </textarea>
+        </div>
+        <button type="submit" class="botao-enviar">Salvar Conteúdo</button>
+    </form>
+</div>
+
+<script>
+    tinymce.init({
+        selector: '#editor-conteudo',
+        plugins: 'autolink lists link image charmap preview anchor pagebreak',
+        toolbar_mode: 'floating',
+        height: 500
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "admin_base.html" %}
+{% block title %}Gerenciar Cursos{% endblock %}
+{% block page_title %}Cursos e Formações{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}{% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}{% endif %}
+    {% endwith %}
+
+    <div class="page-header-with-button">
+        <p>Gerencie todas as formações disponíveis no portal dos membros.</p>
+        <a href="{{ url_for('adicionar_curso') }}" class="botao-enviar">Adicionar Novo Curso</a>
+    </div>
+
+    <table class="product-table">
+        <thead>
+            <tr>
+                <th>Capa</th>
+                <th>Título</th>
+                <th>Categoria</th>
+                <th>Anexo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for curso in cursos %}
+            <tr>
+                <td>
+                    {% if curso.imagem_thumbnail %}
+                        <img src="{{ url_for('static', filename='uploads/' + curso.imagem_thumbnail) }}" alt="{{ curso.titulo }}" class="product-thumbnail">
+                    {% else %}
+                        <span class="no-image-placeholder">Sem Imagem</span>
+                    {% endif %}
+                </td>
+                <td><a href="{{ curso.link_video }}" target="_blank"><strong>{{ curso.titulo }}</strong></a></td>
+                <td>{{ curso.categoria.nome }}</td>
+                <td>
+                    {% if curso.arquivo_anexo %}
+                        <a href="{{ url_for('static', filename='uploads/' + curso.arquivo_anexo) }}" target="_blank">Ver Anexo</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td class="actions-cell">
+                    <a href="{{ url_for('editar_curso', curso_id=curso.id) }}" class="action-button edit">Editar</a> <form action="{{ url_for('excluir_curso', curso_id=curso.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="action-button delete" onclick="return confirm('Tem certeza que deseja excluir este curso?');">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

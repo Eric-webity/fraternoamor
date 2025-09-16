@@ -1,0 +1,51 @@
+{% extends "admin_base.html" %}
+{% block title %}Gerenciar Produtos{% endblock %}
+{% block page_title %}Produtos da Lanchonete{% endblock %}
+
+{% block content %}
+    <div class="page-header-with-button">
+        <p>Gerencie todos os itens disponíveis para venda.</p>
+        <a href="{{ url_for('adicionar_produto') }}" class="botao-enviar">Adicionar Novo Produto</a>
+    </div>
+    
+    <table class="product-table">
+        <thead>
+            <tr>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+            <tr>
+                <td>
+                    {% if produto.imagem_url %}
+                        <img src="{{ url_for('static', filename='uploads/' + produto.imagem_url) }}" alt="{{ produto.nome }}" class="product-thumbnail modal-trigger">
+                    {% else %}
+                        <span style="font-size: 0.9em; color: #888;">Sem Imagem</span>
+                    {% endif %}
+                </td>
+                <td>{{ produto.nome }}</td>
+                <td>{{ produto.categoria }}</td>
+                <td>R$ {{ "%.2f"|format(produto.preco) }}</td>
+                <td>{{ produto.estoque }}</td>
+                <td class="actions-cell">
+                    <a href="{{ url_for('editar_produto', produto_id=produto.id) }}" class="action-button edit">Editar</a>
+                    <form action="{{ url_for('excluir_produto', produto_id=produto.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="action-button delete" onclick="return confirm('Tem certeza?');">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div id="gallery-modal" class="modal">
+        <span class="close-button">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+{% endblock %}

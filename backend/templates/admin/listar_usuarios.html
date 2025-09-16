@@ -1,0 +1,44 @@
+{% extends "admin_base.html" %}
+{% block title %}Gerenciar Usuários{% endblock %}
+{% block page_title %}Usuários do Sistema{% endblock %}
+{% block content %}
+    <div class="page-header-with-button">
+        <p>Gerencie os usuários e suas permissões de acesso.</p>
+        <a href="{{ url_for('registrar') }}" class="botao-enviar">Novo Usuário</a>
+    </div>
+    <table class="product-table">
+        <thead><tr><th>Username</th><th>Admin</th><th>Permissões</th><th>Ações</th></tr></thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.username }}</td>
+                <td>
+                    <span class="status-badge {% if usuario.is_admin %}status-concluído{% else %}status-fechado{% endif %}">
+                        {{ 'Sim' if usuario.is_admin else 'Não' }}
+                    </span>
+                </td>
+                <td>
+                    {% for categoria in usuario.categorias %}
+                        <span class="status-badge status-em-produção">{{ categoria.nome }}</span>
+                    {% else %}
+                        Nenhuma
+                    {% endfor %}
+                </td>
+                <td class="actions-cell">
+                    <a href="{{ url_for('gerenciar_usuario', usuario_id=usuario.id) }}" class="action-button edit">Permissões</a>
+                    
+                    <form action="{{ url_for('alternar_status_admin', id=usuario.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="action-button {% if usuario.is_admin %}delete{% else %}available{% endif %}">
+                            {% if usuario.is_admin %}Remover Admin{% else %}Tornar Admin{% endif %}
+                        </button>
+                    </form>
+
+                    <form action="{{ url_for('excluir_usuario', id=usuario.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="action-button delete" onclick="return confirm('Tem certeza?');">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

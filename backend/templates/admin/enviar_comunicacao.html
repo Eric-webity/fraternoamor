@@ -1,0 +1,33 @@
+{% extends "admin_base.html" %}
+{% block title %}Enviar Comunicações{% endblock %}
+{% block page_title %}Enviar Comunicações{% endblock %}
+
+{% block content %}
+<div class="data-form">
+    <p class="page-subtitle" style="margin-bottom: 30px;">Crie uma mensagem e gere links de envio via WhatsApp para todos os clientes cadastrados com um número de contato.</p>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="mensagem">Sua Mensagem</label>
+            <textarea name="mensagem" id="mensagem" rows="6" required placeholder="Ex: Paz e bem! Lembrete da nossa adoração amanhã às 19h..."></textarea>
+        </div>
+        <button type="submit" class="botao-enviar">Gerar Links de Envio</button>
+    </form>
+</div>
+
+{% if links_whatsapp %}
+<div class="links-container" style="margin-top: 40px; background: #fff; padding: 30px; border-radius: 8px;">
+    <h2 class="section-title" style="font-size: 1.8rem;">Links Gerados</h2>
+    <p>Clique em cada link abaixo para abrir o WhatsApp com a mensagem pronta para ser enviada para cada cliente.</p>
+    <ul class="links-list">
+        {% for link in links_whatsapp %}
+        <li>
+            <strong>{{ link.nome }}:</strong> 
+            <a href="{{ link.url }}" target="_blank">Enviar para {{ link.contato }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% endblock %}

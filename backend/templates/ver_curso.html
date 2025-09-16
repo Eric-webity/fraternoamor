@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ curso.titulo }} - Fraterno Amor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <header class="dashboard-header">
+        <a href="{{ url_for('dashboard') }}"><img src="{{ url_for('static', filename='imagens/logo-branco.png') }}" alt="Logo" class="logo"></a>
+        <nav>
+            {% if current_user.is_admin %}
+                <a href="{{ url_for('admin_dashboard') }}" class="header-button" style="background-color: var(--cor-destaque); color: var(--cor-texto);">Painel Admin</a>
+            {% endif %}
+            <a href="{{ url_for('alterar_senha') }}">Alterar Senha</a>
+            <a href="{{ url_for('logout') }}">Sair</a>
+        </nav>
+    </header>
+
+    <main class="container" style="padding: 40px 15px;">
+        <div class="course-view-container">
+            <h1 class="course-title">{{ curso.titulo }}</h1>
+            
+            {% if curso.embed_url %}
+            <div class="video-container">
+                <iframe src="{{ curso.embed_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            {% else %}
+            <div class="alert alert-danger">
+                Não foi possível carregar o vídeo. <a href="{{ curso.link_video }}" target="_blank">Clique aqui para abrir em uma nova aba.</a>
+            </div>
+            {% endif %}
+            
+            {% if curso.descricao %}
+            <div class="course-description">
+                <h2>Sobre esta formação</h2>
+                <p>{{ curso.descricao | safe }}</p>
+            </div>
+            {% endif %}
+
+            {% if curso.arquivo_anexo %}
+            <div class="course-attachment">
+                <a href="{{ url_for('static', filename='uploads/' + curso.arquivo_anexo) }}" class="botao-destaque" target="_blank">
+                    <i class="fas fa-download"></i> Baixar Material de Apoio
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+</body>
+</html>

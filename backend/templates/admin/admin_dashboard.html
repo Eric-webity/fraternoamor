@@ -1,0 +1,152 @@
+{% extends "admin_base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Painel de Controle{% endblock %}
+
+{% block head %}
+{{ super() }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid admin-page-content">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="page-header">
+        <h1>Painel de Controle</h1>
+    </div>
+
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <h2>{{ total_pedidos }}</h2>
+            <p>Pedidos Recebidos</p>
+        </div>
+        <div class="stat-card">
+            <h2>{{ total_produtos }}</h2>
+            <p>Produtos Cadastrados</p>
+        </div>
+        <div class="stat-card">
+            <h2>{{ total_clientes }}</h2>
+            <p>Clientes Registrados</p>
+        </div>
+        <div class="stat-card">
+            <h2>{{ total_usuarios }}</h2>
+            <p>Usuários Cadastrados</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h6>Cursos por Categoria</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="position: relative; height:300px;">
+                        {% if chart_labels and chart_data %}
+                        <canvas id="cursosPorCategoriaChart"></canvas>
+                        {% else %}
+                        <div class="text-center py-5">
+                            <p class="text-muted">Não há dados disponíveis para o gráfico.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="dashboard-actions">
+                <a href="{{ url_for('listar_pedidos') }}" class="action-link">
+                    <h3>Visualizar Pedidos</h3>
+                    <p>Acompanhe os últimos pedidos feitos.</p>
+                </a>
+                <a href="{{ url_for('adicionar_produto') }}" class="action-link">
+                    <h3>Adicionar Produto</h3>
+                    <p>Cadastre um novo item na lanchonete.</p>
+                </a>
+                <div class="action-link">
+                    <h3>Exportar Relatórios</h3>
+                    <p>Baixe os dados do sistema em formato CSV.</p>
+                    <div class="report-buttons">
+                        <a href="{{ url_for('exportar_usuarios_csv') }}" class="botao-enviar small">Usuários</a>
+                        <a href="{{ url_for('exportar_produtos_csv') }}" class="botao-enviar small">Produtos</a>
+                        <a href="{{ url_for('exportar_vendas_csv') }}" class="botao-enviar small">Vendas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script para inicializar o gráfico -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Converter dados do Jinja2 para JavaScript de forma segura
+        const chartLabels = JSON.parse('{{ chart_labels | tojson | safe }}');
+        const chartData = JSON.parse('{{ chart_data | tojson | safe }}');
+        
+        console.log('Labels do gráfico:', chartLabels);
+        console.log('Dados do gráfico:', chartData);
+        
+        const ctx = document.getElementById('cursosPorCategoriaChart');
+        
+        if (!ctx) {
+            console.error('Elemento canvas não encontrado');
+            return;
+        }
+        
+        // Verificar se há dados para exibir
+        if (!chartLabels || !chartData || chartLabels.length === 0 || chartData.length === 0) {
+            ctx.parentElement.innerHTML = '<p class="text-center text-muted py-4">Não há dados para exibir o gráfico.</p>';
+            return;
+        }
+        
+        try {
+            // Criar o gráfico
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Nº de Cursos',
+                        data: chartData,
+                        backgroundColor: [
+                            'rgba(164, 36, 36, 0.8)',
+                            'rgba(212, 175, 55, 0.8)',
+                            'rgba(44, 62, 80, 0.8)',
+                            'rgba(52, 152, 219, 0.8)',
+                            'rgba(155, 89, 182, 0.8)',
+                            'rgba(46, 204, 113, 0.8)',
+                            'rgba(241, 196, 15, 0.8)'
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
+                    }
+                }
+            });
+            
+            console.log('Gráfico criado com sucesso!');
+            
+        } catch (error) {
+            console.error('Erro ao criar gráfico:', error);
+            ctx.parentElement.innerHTML = '<p class="text-center text-danger py-4">Erro técnico ao carregar o gráfico.</p>';
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "admin_base.html" %}
+{% block title %}Pedidos Recebidos{% endblock %}
+{% block page_title %}Pedidos Recebidos{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}{% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}{% endif %}
+    {% endwith %}
+
+    <p style="margin-bottom: 30px;">Aqui estão todos os pedidos feitos através do site, dos mais antigos para os mais novos.</p>
+
+    <div class="order-list">
+        {% if pedidos %}
+            {% for pedido in pedidos %}
+            <div class="order-card">
+                <div class="order-header">
+                    <h3>Pedido #{{ pedido.id }}</h3>
+                    <span>Cliente: <strong>{{ pedido.cliente.nome }}</strong></span>
+                </div>
+                <div class="order-body">
+                    <p><strong>Data:</strong> {{ pedido.data_pedido.strftime('%d/%m/%Y às %H:%M') }}</p>
+                    <p><strong>Valor Total:</strong> R$ {{ "%.2f"|format(pedido.valor_total) }}</p>
+                    <p><strong>Status:</strong> <span class="status-badge status-{{ pedido.status.lower().replace(' ', '-') }}">{{ pedido.status }}</span></p>
+                    <h4>Itens do Pedido:</h4>
+                    <ul class="order-items-list">
+                        {% for item in pedido.itens %}
+                        <li>{{ item.quantidade }}x {{ item.produto.nome }} <em>(R$ {{ "%.2f"|format(item.preco_unitario) }} cada)</em></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="order-actions">
+                    {% if pedido.status == 'Recebido' %}
+                        <form action="{{ url_for('mudar_status_pedido', pedido_id=pedido.id) }}" method="POST"><input type="hidden" name="novo_status" value="Em Produção"><button type="submit" class="action-button edit">Iniciar Produção</button></form>
+                    {% elif pedido.status == 'Em Produção' %}
+                        <form action="{{ url_for('mudar_status_pedido', pedido_id=pedido.id) }}" method="POST"><input type="hidden" name="novo_status" value="Disponível para Retirada"><button type="submit" class="action-button available">Pronto para Retirada</button></form>
+                    {% elif pedido.status == 'Disponível para Retirada' %}
+                        <form action="{{ url_for('mudar_status_pedido', pedido_id=pedido.id) }}" method="POST"><input type="hidden" name="novo_status" value="Concluído"><button type="submit" class="action-button complete">Marcar como Concluído</button></form>
+                    {% endif %}
+                    {% if pedido.status != 'Concluído' %}
+                        <form action="{{ url_for('excluir_pedido', pedido_id=pedido.id) }}" method="POST"><button type="submit" class="action-button delete" onclick="return confirm('Tem certeza?');">Excluir</button></form>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Nenhum pedido foi recebido ainda.</p>
+        {% endif %}
+    </div>
+{% endblock %}
